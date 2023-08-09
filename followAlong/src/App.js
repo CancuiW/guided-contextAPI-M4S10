@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-
+import MyContext from './Context/MyContext'
 import { data } from "./data";
+import FamilyButton from "./components/FamilyButton";
 
 import FamilyTree from "./components/FamilyTree";
 import "./styles.scss";
@@ -11,20 +12,12 @@ export default function App() {
 
   return (
     <div className="App">
-      <section className="header">
-        <h1>Family Trees</h1>
-        {families.map(family => (
-          <button
-            className={`family-button ${family.familyName ===
-              activeFamily.familyName && "active"}`}
-            key={family.familyName}
-            onClick={() => setActiveFamily(family)}
-          >
-            {family.familyName}
-          </button>
-        ))}
-      </section>
-      {activeFamily && <FamilyTree family={activeFamily} />}
+      {/* value can not only contain a {value},but also can contain an {object}  */}
+      <MyContext.Provider value={{activeFamily:activeFamily,setActiveFamily:setActiveFamily,families:families}}>
+          <FamilyButton />     
+          {activeFamily && <FamilyTree  />}
+      </MyContext.Provider>
+     
     </div>
   );
 }
